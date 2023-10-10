@@ -1,8 +1,10 @@
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 
 public class ManipulacionArchivos {
 
@@ -26,7 +28,6 @@ public class ManipulacionArchivos {
             + e.toString());
         }
         return numLineas;
-
     }
 
     public static String[] fileToStringArray(String name){
@@ -51,7 +52,6 @@ public class ManipulacionArchivos {
             bufer = new BufferedReader(reader);
             // Lectura del contenido del archivo
             while ( (linea = bufer.readLine())!= null ){
-               // System.out.println("Línea leída: " + linea);
                array[i] = linea;
                i++;
             }
@@ -89,8 +89,40 @@ public static int[] fileToIntArray(String name){
             + e.toString());
         }
         return array;
-        
     }
+
+    public static void writeFile(String name){
+        // un apuntador a un espacio físico del dd
+        FileWriter archivo;
+        // La llave de acceso para escribir el archivo
+        PrintWriter writer;
+        // Para escribir de teclado al dd
+        BufferedReader bufer = new BufferedReader(
+            new InputStreamReader((System.in)));
+        String entrada;
+        char respuesta;
+
+        try{
+            // Apuntador al archivo que se va a crear
+            archivo = new FileWriter("D:\\archivos\\" + name + ".txt");
+            // Abrir el archivo en modo escritura
+            writer = new PrintWriter(archivo);
+            do {
+                System.out.println("Escribe datos para guardar al archivo:");
+                entrada = bufer.readLine();
+                // Guardar lo recuperado desde teclado al archivo
+                writer.println(entrada);
+                System.out.println("Escribe x para salir, cualquier otra tecla para continuar");
+                entrada = bufer.readLine();
+                respuesta = entrada.charAt(0);
+            }while ( respuesta != 'x' );
+            archivo.close();
+        } catch ( Exception e ){
+            System.out.println("Error al escribir el archivo " + e.toString());
+        }
+
+    }
+
 
     public static void main(String[] args) throws IOException  {
         BufferedReader bufer = new BufferedReader(
@@ -116,5 +148,10 @@ public static int[] fileToIntArray(String name){
         for ( int unNumero : numeros ){
             System.out.println(unNumero);
         }
+
+        System.out.println("Crear un archivo de texto");
+        System.out.println("Escribe el nombre del archivo: ");
+        fileName = bufer.readLine();
+        writeFile(fileName);
     }
 }
