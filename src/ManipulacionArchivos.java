@@ -6,11 +6,10 @@ import java.io.InputStreamReader;
 
 public class ManipulacionArchivos {
 
-    public static int contarLineasArchivo(String name){
+    public static int countFileLines(String name){
       File archivo; // Apunta a un archivo físico del dd
       FileReader reader; // Llave con permiso de solo lectura
       BufferedReader bufer; // Recuperar info. del archivo
-      String linea;  
       int numLineas = 0;
 
       try{
@@ -18,7 +17,7 @@ public class ManipulacionArchivos {
             reader = new FileReader(archivo);
             bufer = new BufferedReader(reader);
             // Contar las líneas que contiene el archivo
-            while ( (linea = bufer.readLine())!= null ){
+            while ( ( bufer.readLine())!= null ){
                 numLineas++;
             }
             reader.close();
@@ -41,7 +40,7 @@ public class ManipulacionArchivos {
         
         try{
             // Obtenemos el tamaño del archivo
-            t = contarLineasArchivo(name);
+            t = countFileLines(name);
             // Con el tamaño del archivo, construimos el arreglo
             array = new String[t];
             // Crear un apuntador al archivo físico
@@ -70,13 +69,15 @@ public class ManipulacionArchivos {
         BufferedReader bufer = new BufferedReader(
             new InputStreamReader(System.in));
         String fileName;
-        int t;
+        String[] mascotas;
 
         System.out.println("Lectura de un archivo de texto");
         System.out.println("Escribe el nombre del archivo: ");
         fileName = bufer.readLine();
-        leerArchivo(fileName);
-        t = contarLineasArchivo(fileName);
-        System.out.println("Líneas en el archivo " + fileName + ": " + t);
+        mascotas = fileToStringArray(fileName);
+        System.out.println("Contenido del arreglo de mascotas:");
+        for ( String unaMascota : mascotas ){
+            System.out.println(unaMascota);
+        }
     }
 }
